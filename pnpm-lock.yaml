@@ -14,6 +14,9 @@ dependencies:
   '@nestjs/jwt':
     specifier: ^10.2.0
     version: 10.2.0(@nestjs/common@10.3.7)
+  '@nestjs/mapped-types':
+    specifier: ^2.0.5
+    version: 2.0.5(@nestjs/common@10.3.7)(reflect-metadata@0.2.2)
   '@nestjs/mongoose':
     specifier: ^10.0.5
     version: 10.0.5(@nestjs/common@10.3.7)(@nestjs/core@10.3.7)(mongoose@8.3.0)(rxjs@7.8.1)
@@ -23,6 +26,9 @@ dependencies:
   '@nestjs/platform-express':
     specifier: ^10.0.0
     version: 10.3.7(@nestjs/common@10.3.7)(@nestjs/core@10.3.7)
+  '@typegoose/typegoose':
+    specifier: ^12.3.0
+    version: 12.3.0(mongoose@8.3.0)
   bcrypt:
     specifier: ^5.1.1
     version: 5.1.1
@@ -1024,7 +1030,6 @@ packages:
     dependencies:
       '@nestjs/common': 10.3.7(reflect-metadata@0.2.2)(rxjs@7.8.1)
       reflect-metadata: 0.2.2
-    dev: true
 
   /@nestjs/mongoose@10.0.5(@nestjs/common@10.3.7)(@nestjs/core@10.3.7)(mongoose@8.3.0)(rxjs@7.8.1):
     resolution: {integrity: sha512-P5vwsT1RiL1+nGXfVMLMnqowkKy/azecSkAlE/0GBjoRJd7diJIJTVgOKCDysIQFtG1qinT3yXhusS1IM2jWBw==}
@@ -1218,6 +1223,20 @@ packages:
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
+
+  /@typegoose/typegoose@12.3.0(mongoose@8.3.0):
+    resolution: {integrity: sha512-y5nLreUPumLAFZnPMnIR4JeceiKQVnWxw/QT9VRbe8Zj+oUxszBekqty8HJjYhMgZwJn3Ue+idrAsX6A3fHm4w==}
+    engines: {node: '>=16.20.1'}
+    peerDependencies:
+      mongoose: ~8.2.4
+    dependencies:
+      lodash: 4.17.21
+      loglevel: 1.9.1
+      mongoose: 8.3.0
+      reflect-metadata: 0.2.2
+      semver: 7.6.0
+      tslib: 2.6.2
+    dev: false
 
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -4087,7 +4106,6 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -4096,6 +4114,11 @@ packages:
       chalk: 4.1.2
       is-unicode-supported: 0.1.0
     dev: true
+
+  /loglevel@1.9.1:
+    resolution: {integrity: sha512-hP3I3kCrDIMuRwAwHltphhDM1r8i55H33GgqjXbrisuJhF4kRhW1dNuxsRklp4bXl8DSdLaNLuiL4A/LWRfxvg==}
+    engines: {node: '>= 0.6.0'}
+    dev: false
 
   /lru-cache@10.2.0:
     resolution: {integrity: sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==}
