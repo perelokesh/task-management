@@ -7,12 +7,14 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import {JwtService} from '@nestjs/jwt'
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.modelName) 
   private readonly userModel: ReturnModelType<typeof User>,
   private readonly jwtService:JwtService,
+  private readonly configservice: ConfigService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const {username, password} = createUserDto;
@@ -71,7 +73,7 @@ export class UsersService {
 
    },
    {
-    secret:"secret",
+    secret:this.configservice.get('JWT_SECRET'),
     expiresIn:'1h'
    }
     );

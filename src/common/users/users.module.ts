@@ -5,17 +5,23 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStartegy } from './jwt.startegy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports:[
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([User]),
-    JwtModule.register({
-      global: true,
-      secret:"secret",
+    JwtModule.registerAsync({
+     imports: [ConfigModule],
+     inject:[ConfigService],
+     useFactory: (config: ConfigService) => ({
+      global:true,
+      secret: config.get("SECRET"),
       signOptions:{
         expiresIn:'1h'
       }
-    })
+     })
+    }),
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStartegy],
