@@ -3,10 +3,11 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { JwtStartegy } from './auth-guard';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth-guard';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -34,7 +35,7 @@ export class UsersController {
 
   
   @ApiBearerAuth()
-  @UseGuards(JwtStartegy)
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     try {
@@ -50,7 +51,7 @@ export class UsersController {
   
 
   @ApiBearerAuth()
-  @UseGuards(JwtStartegy)
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -58,7 +59,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtStartegy)
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
   remove(@Param('id') id: string) {
@@ -66,7 +67,7 @@ export class UsersController {
   }
 
 
-  @UseGuards(JwtStartegy)
+  @UseGuards(JwtAuthGuard)
   @Get("mama")
   async get(@Param('id') id: string){
     return await this.usersService.findbyId(id);

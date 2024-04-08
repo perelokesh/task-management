@@ -1,24 +1,26 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import {PassportStrategy} from '@nestjs/passport'
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersService } from './users.service';
+// jwt.guard.ts
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
 @Injectable()
-export class JwtStartegy extends PassportStrategy(Strategy){
-  constructor(private readonly userService: UsersService){
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey:'my_secret_key',
-      
-    });
+export class JwtAuthGuard implements CanActivate {
+  constructor(private jwtService: JwtService) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
+    const token = request.headers['authorization'];
+
+    if (!token || !token.startsWith('Bearer ')) {
+      return false; // No token provided or incorrect format
     }
-    async validate(payload:any){
-      const user =  this.userService.findByName({email: payload.email})
-      if (!user) {
-        throw new UnauthorizedException('Invalid token');
-      }
-      
-      return user;
+
+    const authToken = token.split(' ')[1];
+    try {
+      const decoded = this.jwtService.verify(authToken);
+      request.user = decoded; // Set user information extracted from JWT token in the request
+      return true; // Token is valid
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      return false; // Token is invalid or expired
     }
+  }
 }

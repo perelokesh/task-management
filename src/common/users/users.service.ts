@@ -69,7 +69,8 @@ export class UsersService {
   ):Promise<{accessToken:string}>{
    const accessToken = await this.jwtService.signAsync(
    {
-    user: user.username
+    user: user.username,
+    sub: user,
 
    },
    {

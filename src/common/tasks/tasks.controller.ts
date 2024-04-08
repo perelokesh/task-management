@@ -1,14 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Task } from './entities/task.entity';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {JwtAuthGuard} from '../users/auth-guard'
 
+@ApiTags('Tasks')
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
-  @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post('createTask')
+  create(@Body() createTaskDto: Task, @Request() req): Promise<Task> {
+    createTaskDto.user = req.user.sub;
     return this.tasksService.create(createTaskDto);
   }
 
@@ -18,8 +25,9 @@ export class TasksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+  async findOne(@Param('id') id: string):Promise<Task> {
+    const user = await this.tasksService.findOne(id);
+    return user;
   }
 
   @Patch(':id')
